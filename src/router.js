@@ -11,6 +11,10 @@ import member from './components/tabbar/member.vue';
 import newslist from './components/news/newslist.vue';
 import newdetail from './components/news/newdetail.vue';
 import images from './components/images/images.vue';
+import imagesdetail from './components/images/imagesdetail.vue';
+import shoplist from './components/shop/shoplist.vue';
+import goodsdetail from './components/shop/goodsdetail.vue';
+import goodsdesc from './components/shop/goodsdesc.vue';
 
 var router =new VueRouter({
     //手动安装vuerouter到vue中去
@@ -22,7 +26,11 @@ var router =new VueRouter({
         {path:'/search',component:search},
         {path:'/home/newslist',component:newslist},
         {path:'/home/newdetail/:id',component:newdetail},
-        {path:'/home/images',component:images}
+        {path:'/home/images',component:images},
+        {path:'/home/imagesdetail/:id',component:imagesdetail},
+        {path:'/home/shoplist',component:shoplist},
+        {path:'/home/goodsdetail/:id',component:goodsdetail},
+        {path:'/home/goodsdesc/:id',component:goodsdesc}
     ],
      //点击事件设置为高亮
      //修改路由匹配到的默认类,修改为mui的类

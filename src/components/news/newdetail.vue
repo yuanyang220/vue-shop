@@ -63,7 +63,7 @@ export default{
 // 如果需要支持scss这个扩展,还需要在wepack.config.js中配置参数
 .new-content{
     padding: 0 10px;
-    padding-bottom:50px;
+    //padding-bottom:50px;
     .title{
         font-size: 16px;
         color: red;

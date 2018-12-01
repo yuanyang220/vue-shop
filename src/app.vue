@@ -1,7 +1,7 @@
 <template>
     <div class="app">
         <!-- header -->
-        <mt-header title="商城"></mt-header>
+        <mt-header fixed title="商城"></mt-header>
         <!-- 主体部分 -->
         
         <!-- 底部tabar -->
@@ -35,5 +35,9 @@
 // 装相关loader器npm i sass-loader node-sass  -D ，sass-loader依赖于node-sass，所以也需要安装
 // style只能默认的写css样式,如果要设置对应的css扩展如scss扩展或是less,需要给style便签设置为lang='scss'
 // 如果需要支持scss这个扩展,还需要在wepack.config.js中配置参数
-
+.app{
+    padding-top:40px;
+    padding-bottom:50px;
+}
+  
 </style>    

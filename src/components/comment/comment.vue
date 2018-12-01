@@ -72,6 +72,8 @@
             //把当前的评论数据放在数组的末端
             this.content = ''; //清空评论的信息
             this.comments = []; //清空数据
+            //把页码重置为1
+            this.pageindex=1;
             this.getComments(); //重新加载最新的评论信息
           }
         });
@@ -89,6 +91,7 @@
 
 <style lang="scss" scoped>
   .comment {
+    margin-bottom:46px; 
     .title {
       font-size: 18px;
     }

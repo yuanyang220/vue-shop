@@ -47,7 +47,10 @@ import './lib/mui/css/icons-extra.css';
 //import mui from './lib/mui/js/mui.js';
 //导入mui的 lockjs
 //import './lib/mui/js/lock.js';
-
+//引入图片预览插件
+import VuePreview from 'vue-preview'
+//安装到vue身上
+Vue.use(VuePreview); 
 //导入根组件app.vue
 import app from './app.vue';
 // //引入tabbar组件
