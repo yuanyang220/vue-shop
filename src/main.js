@@ -5,6 +5,141 @@
 //import Vue from 'vue/dist/vue.js';//第一种引用完整的vuejs  ok
 //[Vue warn]: You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.
 import Vue from 'vue';//要手动在配置里面修改,让他默认读取vue.js
+//导入vuex组件
+import Vuex from 'vuex';
+//注册到vue中
+Vue.use(Vuex);
+//引入vuex 实现数据共享
+//实时获取本地数据
+var cartData=JSON.parse(localStorage.getItem('cartData'))||'[]';
+var store=new Vuex.Store({
+    //数据共享定义在state(Data)//四个数据,是否是选中状态selected  id商品id  number商品数量 price商品价格 
+    state:{
+        cartData:cartData//这里的购物车应该从本地存储
+    },
+    //修改共享数据只能通过mutations this.$store.commit('方法名','唯一的参数')
+    mutations:{
+        add(state,data){
+            //添加商品到共享数据中
+            //console.log(data);
+            var flag=false;//默认没有相同的商品
+            //如果有相同的商品,需要加数量
+            state.cartData.forEach(function(item,index){
+                //console.log(item,index);
+                if(item.id==data.id){
+                    // console.log(item.id,data.id);
+                    //找到相同商品，数量加data.number个,数字最好转化为整形,不然会拼接成字符串
+                    item.number= parseInt(item.number)+parseInt(data.number);
+                    flag=true;//找到了相同商品。把标识改为true;
+
+                }
+                
+            });
+            //如果为false,上面循环没有找到相同商品，则添加一个商品
+            if(flag==false){
+                state.cartData.push(data);
+            }          
+            //还需要写入到本地存储中
+            localStorage.setItem('cartData',JSON.stringify(state.cartData));
+        },
+        //修改商品的选中状态
+        changeSelected(state,obj){
+            console.log(obj);
+            state.cartData.forEach(function(item,index){
+                //找到对应的商品id,修改带过来的状态
+                if(item.id==obj.id){
+                    item.selected=obj.selected;
+                }
+            })
+            // 更新之后需要同步到本地存储
+            localStorage.setItem('cartData',JSON.stringify(state.cartData));
+            
+        },
+        //删除购物车的商品
+        del(state,id){
+            console.log('id:'+id);
+            state.cartData.forEach(function(item,index){
+                //找到要删除的商品id
+                if(item.id==id){
+                    //删除当前id元素 arr.splice(索引,删除的长度) 索引从自己开始删除对应第二个参数的几个值
+                    state.cartData.splice(index,1); 
+                }
+                //同步到本地存储
+                localStorage.setItem('cartData',JSON.stringify(state.cartData));
+            })
+        },
+        //改变购物车的商品数量
+        changeNumber(state,obj){
+            //修改数量
+            state.cartData.forEach(function(item,index){
+                if(item.id==obj.id){
+                    //找到对应的商品id
+                    item.number=obj.number;
+                }
+            });
+             //需要同步到本地存储
+            localStorage.setItem('cartData',JSON.stringify(state.cartData));
+        }
+
+    },
+    //用于暴露数据给外面的使用的
+    getters:{
+        //获取商品数量的总数
+        getTotalNumber(state){
+            //算出商品的总数
+            var totalNumber = 0;
+            state.cartData.forEach(function(item,index){
+                totalNumber += parseInt(item.number);
+            });
+            return totalNumber;
+        },
+        //获取商品的id
+        getGoodsIds(state){
+            //定义一个空数组
+            var ids = [];
+            state.cartData.forEach(function(item,index){
+                ids.push(item.id);
+            });
+            //把数组变成字符串
+            return ids.join(',');
+        },
+        //获取购物车商品id和对应数量的对象 {商品id:商品数量}
+        getGoodsNumber(state){
+            var obj = {};
+            //json对象也可以像php数组一样，通过下标也可以访问到具体值
+            state.cartData.forEach(function(item,index){
+              obj[item.id] = item.number;
+            });
+            return obj;
+          },
+          //获取商品的选中状态{商品id:商品选中状态}
+          getGoodsSelected(state){
+            var obj ={};
+            //json对象也可以想php数组一样,通过下标也可以访问到具体值
+            state.cartData.forEach(function(item,index){
+                obj[item.id]=item.selected;
+            });
+            return obj;
+          },
+          //获取购物车选中商品的数量和总价格
+          getSelectedGoodsInfo(state){
+              var obj={
+                  selectedNumber:0,
+                  selectedPrice:0
+              }
+              state.cartData.forEach(function(item,index){
+                  //判断是否选中
+                  if(item.selected==true){
+                      obj['selectedNumber']+=parseInt(item.number);
+                      obj['selectedPrice']+=parseInt(item.price)*item.number;
+
+                  }
+                  
+              })
+              return obj;
+          }
+    }
+});
 //导入js文件
 //import './js/index.js';
 
@@ -103,7 +238,9 @@ new Vue({
         return creatElement(app);//return的结果是根组件会把el,#app的视图覆盖
     },
     //把路由对象挂载在vm实例身上
-    router
+    router,
+    //把数据共享仓库都vue实例中
+    store
     
 });
 

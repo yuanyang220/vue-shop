@@ -26,14 +26,14 @@
                                 <!-- <h5 class="mui-content-padded">限定最小值和最大值(1~9)</h5>   data-numbox-max='9' -->
                                 <div class="mui-numbox" data-numbox-min='1'>
                                     <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-                                    <input id="test" class="mui-input-numbox" type="number" value="1" />
+                                    <input id="test" class="mui-input-numbox" type="number" value="1" ref="number"/>
                                     <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
                                 </div>
                             </div>
                         </p>
                         <p>
                             <mt-button type='primary'>立即购买</mt-button>
-                            <mt-button type='danger'>加入购物车</mt-button>
+                            <mt-button type='danger' @click='addCart'>加入购物车</mt-button>
                         </p> 
 					</div>
 				</div>
@@ -57,7 +57,7 @@
        
         <div class="mui-card-footer btn">
             <mt-button plain type="primary" size="large" class="text" @click="getGoodsDesc">图文介绍</mt-button>&nbsp;&nbsp;
-            <mt-button plain type="danger" size="large">商品评论</mt-button>
+            <mt-button plain type="danger" size="large" @click="getComment">商品评论</mt-button>
         </div>
     </div>
 </div>
@@ -66,6 +66,7 @@
 </template>
 <script >
 import swipe from '../comment/lunbotu.vue';
+import { Toast } from 'vant';
 //引入mui的js文件
 import mui from "../../lib/mui/js/mui.js";
 console.log(mui);
@@ -87,7 +88,7 @@ console.log(mui);
        mounted(){
            //执行这里,说明虚拟dom已经挂载到真实的dom中,这时候,可以用js去操作页面中的dom元素
            //初始化我们的num-box组件 
-           mui('.mui-numbox').numbox()
+           mui('.mui-numbox').numbox();
        },
        methods:{
            //获取商品的轮播图信息
@@ -126,6 +127,23 @@ console.log(mui);
            getGoodsDesc(){
                //获取图文跳转的商品图文页面
                this.$router.push('/home/goodsdesc/'+this.id);
+           },
+           getComment(){
+               //跳转到商品评论页面
+               this.$router.push('/home/goodscomment/'+this.id);
+           },
+           addCart(){
+               //把商品添加到购物车
+               var data={
+                   id:this.id,//获取当前商品的id
+                   number:this.$refs.number.value,//通过给当前元素设置ref属性,获取商品的购买数量
+                   price:this.GoodsInfo.sell_price,//获取商品价格
+                   selected:true,//默认是加入购物车并且处于选中
+               }
+               //把数据存到vuex数据中的state.cartData中
+               this.$store.commit('add',data);
+              Toast('添加商品成功')
+               //console.log(data);
            }
        }
     };

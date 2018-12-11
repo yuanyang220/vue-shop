@@ -1,7 +1,7 @@
 <template>
 
     <div class="lunbo">
-        <mt-swipe class="center" :auto="1000">
+        <mt-swipe class="center" :auto="3000">
             <mt-swipe-item v-for="item in lunbo" :key='item.url'>
                 <img class="images" :src="item.img">
             </mt-swipe-item>

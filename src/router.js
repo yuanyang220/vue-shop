@@ -15,6 +15,7 @@ import imagesdetail from './components/images/imagesdetail.vue';
 import shoplist from './components/shop/shoplist.vue';
 import goodsdetail from './components/shop/goodsdetail.vue';
 import goodsdesc from './components/shop/goodsdesc.vue';
+import goodscomment from './components/shop/goodscomment.vue';
 
 var router =new VueRouter({
     //手动安装vuerouter到vue中去
@@ -30,7 +31,8 @@ var router =new VueRouter({
         {path:'/home/imagesdetail/:id',component:imagesdetail},
         {path:'/home/shoplist',component:shoplist},
         {path:'/home/goodsdetail/:id',component:goodsdetail},
-        {path:'/home/goodsdesc/:id',component:goodsdesc}
+        {path:'/home/goodsdesc/:id',component:goodsdesc},
+        {path:'/home/goodscomment/:id',component:goodscomment}
     ],
      //点击事件设置为高亮
      //修改路由匹配到的默认类,修改为mui的类
