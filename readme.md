@@ -524,7 +524,7 @@ cms: content manger system ，内容管理系统
 ## 实现图片的懒加载
 
 - 使用mint-ui的lazyload组件,进行引入
-- 给img标签设置v-lazy属性，值为图片的路径
+- 给img标签设置v-lazy属性，值为图片的路径.....................................
 
 
 
